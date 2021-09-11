@@ -1,0 +1,123 @@
+body,
+.input,
+.button {
+  font: normal 16px Verdana;
+  margin: 0;
+}
+
+.layout {
+  margin: 10px auto;
+  max-width: 1000px;
+}
+
+.menu {
+  margin: 0 0 30px;
+  margin-top: 60px;
+  line-height: 2px;
+}
+
+.user-list {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  color: wheat;
+}
+h1:after {
+  border-bottom: 8px solid white;
+  display: block;
+  margin-top: 20px;
+  content: " ";
+  width: "100%";
+}
+.bg {
+  /* The image used */
+  background-image: url("https://images.unsplash.com/photo-1561494653-744c43aed0c1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1929&q=80");
+
+  /* Full height */
+  /* height: 100%; */
+
+  /* Center and scale the image nicely */
+  /* background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; */
+}
+.user-list-item {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  color: #333;
+  display: block;
+  margin: 0 0 1px;
+  padding: 8px 15px;
+  outline: none;
+  text-decoration: none;
+}
+
+.user-list-item:hover {
+  text-decoration: underline;
+}
+
+.label {
+  display: block;
+  margin: 0 0 5px;
+}
+
+.input {
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: block;
+  margin: 0 0 10px;
+  padding: 10px 15px;
+  width: 100%;
+}
+
+.button {
+  background: #eee;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  color: #333;
+  display: inline-block;
+  margin: 0 0 10px;
+  padding: 10px 15px;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: #e8e8e8;
+}
+
+.collapsible {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  color: #333;
+  display: block;
+  margin: 0 0 1px;
+  padding: 8px 15px;
+  outline: none;
+  text-decoration: none;
+  /* background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px; */
+}
+
+.active,
+.collapsible:hover {
+  background-color: #555;
+}
+
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  /* background-color: #f1f1f1; */
+}
