@@ -3,9 +3,11 @@ var User = require("../models/User")
 var UserForm =require("./UserForm")
 var UserCreateForm=require("./UserCreateForm")
 module.exports = {
-    oninit: User.loadList,
-    
+    oninit: User.UserData,
+    oncreate:User.UserData,
+   // onupdate:User.UserData,
     view: function() {
+      console.log('hello',User.list)
         return [m(".user-list", User.list.map(function(user,index) {
            return [
            [ m("div",{style:'display:flex'},    

@@ -1,6 +1,9 @@
 var m = require("mithril")
-
+var User=require("../models/User")
 module.exports = {
+   // oninit:User.UserData,
+    // oncreate:User.UserData,
+    // onupdate:User.UserData,
     view: function(vnode) {
         return m("main.layout", [
             m("nav.menu", [

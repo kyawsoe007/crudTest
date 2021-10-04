@@ -1,7 +1,12 @@
 var m = require("mithril")
-
+var initSqlJs=require ("sql.js");
+var regen=require ('regenerator-runtime/runtime');
+// Required to let webpack 4 know it needs to copy the wasm file to our assets
+//import sqlWasm from "./node_modules/file-loader/dist/cjs.js";
+let db
+let arrayOfUser=[]
 var User = {
-    list: [{id:1,firstName:"Kyaw",lastName:"Soe"},{id:2,firstName:"Soe",lastName:"Ye"}],
+    list: [],
     Index:1,
     editIndex:function editIndex(e){
         //Index=parseInt(e)
@@ -18,26 +23,53 @@ var User = {
         }
            
     },
+    UserData:async ()=> {
+       const SQL= await initSqlJs({locateFile:file=>`https://sql.js.org/dist/${file}`})
+       db=new SQL.Database()
+    
+          var sqlstr = "CREATE TABLE user (id int, firstName char,lastName char); \
+       INSERT INTO user VALUES (1, 'user','name'); \
+       INSERT INTO user VALUES (2, 'kyaw','soe');";
+       db.exec(sqlstr);
+       const res = db.exec("SELECT * FROM user");
+       console.log('res',res)
+        if(res.length!=0){
+            let userArray=[]
+          for(var value in res){
+                     for(var i=0;i<res[value].values.length;i++){
+                        let userObj={}
+                userObj['id']=res[value].values[i][0]
+                userObj['firstName']=res[value].values[i][1]
+                userObj['lastName']=res[value].values[i][2]
+                userArray.push(userObj)
+            }
+            
+          }
+          arrayOfUser=userArray
+          User.list=userArray
+        }
+        return arrayOfUser
+    },
+   
+
     loadList: function() {
-        return m.request({
-            method: "GET",
-            url: "https://rem-rest-api.herokuapp.com/api/users",
-            withCredentials: true,
-        })
-        .then(function(result) {
-            User.list
-        })
+      this.UserData
+        console.log('hello4')
+   return (
+            User.list)
     },
 
     current: {},
     load: function(id) {
+       // console.log('hello3',arrayOfUser)
         return m.request({
             method: "GET",
             url: "https://rem-rest-api.herokuapp.com/api/users/" + id,
             withCredentials: true,
         })
         .then(function(result) {
-            console.log('idG',User.Index)
+            console.log('idG',arrayOfUser)
+            //User.UserData
             let index=User.list.findIndex(x => x.id == id)
             User.current = User.list[index]
         })
@@ -51,8 +83,29 @@ var User = {
         })
         .then(
             function(result){
+              //  User.UserData
             let createBody={id:User.list.length+1,firstName:data.firstName,lastName:data.lastName}
-            User.list.push(createBody)
+           let array=Object.values(createBody)
+           let sqlQueryCreate= `INSERT INTO user VALUES (${array[0]}, '${array[1]}','${array[2]}');`
+            db.exec(sqlQueryCreate);
+            const res = db.exec("SELECT * FROM user");
+            
+            if(res.length!=0){
+                let userArray=[]
+              for(var value in res){
+                         for(var i=0;i<res[value].values.length;i++){
+                            let userObj={}
+                    userObj['id']=res[value].values[i][0]
+                    userObj['firstName']=res[value].values[i][1]
+                    userObj['lastName']=res[value].values[i][2]
+                    userArray.push(userObj)
+                }
+                
+              }
+              arrayOfUser=userArray
+              User.list=userArray
+            }
+
         }
         )
     },
@@ -65,7 +118,25 @@ var User = {
         })
         .then(function(result){
            // let index=User.list.findIndex(x => x.id == id)
-           User.list.splice(id,1)
+           let sqlQueryDelete= `DELETE FROM user WHERE id=${id};`
+           db.exec(sqlQueryDelete);
+           const res = db.exec("SELECT * FROM user");
+           if(res.length!=0){
+               let userArray=[]
+             for(var value in res){
+                        for(var i=0;i<res[value].values.length;i++){
+                           let userObj={}
+                   userObj['id']=res[value].values[i][0]
+                   userObj['firstName']=res[value].values[i][1]
+                   userObj['lastName']=res[value].values[i][2]
+                   userArray.push(userObj)
+               }
+               
+             }
+             arrayOfUser=userArray
+             User.list=userArray
+           }
+          // User.list.splice(id,1)
         })
     },
 
