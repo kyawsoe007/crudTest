@@ -12,6 +12,7 @@ module.exports = {
            return [
            [ m("div",{style:'display:flex'},    
             m(m.route.Link,{class:"collapsible",id:index,style:'width:90%;height:1%',
+            value1:`${user.firstName}`,value2:`${user.lastName}`,
           onclick:function(e){
             User.editIndex(e.target.id)
           }
@@ -25,7 +26,7 @@ module.exports = {
               ), 
             ),],
                 m("div",{class:"content"}, 
-                m(UserForm, {id:User.Index})
+                m(UserForm, {id:user.id,firstName:user.firstName,lastName:user.lastName})
                 ),
               ]
         })),

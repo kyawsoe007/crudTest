@@ -18,7 +18,7 @@ var User = {
         if(content[e].style.display==="block"){
           content[e].style.display="none";
         }else {
-            User.load(parseInt(e)+1)
+          //  User.load(parseInt(e)+1)
           content[e].style.display="block";
         }
            
@@ -140,7 +140,8 @@ var User = {
         })
     },
 
-    save: function() {
+    save: function(data,id) {
+      console.log('data',data,id)
         return m.request({
             method: "PUT",
             url: "https://rem-rest-api.herokuapp.com/api/users/" + User.current.id,
@@ -148,16 +149,17 @@ var User = {
             withCredentials: true,
         })
         .then(function(result){
-            //console.log('id',User.current)
-            let index=User.list.findIndex(x => x.id == User.current.id)
-            User.list[index]=User.current;
-            var content=document.getElementsByClassName('content');
+            
+            let index=User.list.findIndex(x => x.id == id)
+            let sqlQueryUpdate=`UPDATE user SET firstName='${data.firstName}', lastName='${data.lastName}'  WHERE id='${id}'`
+           db.exec(sqlQueryUpdate)
+           const res=db.exec("SELECT * FROM user");
+           console.log('resU',res)
+            User.list[index]=data;
+             var content=document.getElementsByClassName('content');
+            // console.log('id',content[index].getElementsByClassName('input1')[0].value)
             if(content[index].style.display==="block"){
               content[index].style.display="none";
-            }else {
-              content[index].style.display="block";
-              User.load(parseInt(index)+1)
-              //editId=editId+1
             }
 
         })
