@@ -111,58 +111,39 @@ var User = {
     },
 
     delete:function(id){
-        return m.request({
-            method: "DELETE",
-            url: "https://rem-rest-api.herokuapp.com/api/users/"+id,
-           // withCredentials:true,
-        })
-        .then(function(result){
-           // let index=User.list.findIndex(x => x.id == id)
-           let sqlQueryDelete= `DELETE FROM user WHERE id=${id};`
-           db.exec(sqlQueryDelete);
-           const res = db.exec("SELECT * FROM user");
-           if(res.length!=0){
-               let userArray=[]
-             for(var value in res){
-                        for(var i=0;i<res[value].values.length;i++){
-                           let userObj={}
-                   userObj['id']=res[value].values[i][0]
-                   userObj['firstName']=res[value].values[i][1]
-                   userObj['lastName']=res[value].values[i][2]
-                   userArray.push(userObj)
-               }
-               
-             }
-             arrayOfUser=userArray
-             User.list=userArray
-           }
-          // User.list.splice(id,1)
-        })
+      let sqlQueryDelete= `DELETE FROM user WHERE id=${id};`
+      db.exec(sqlQueryDelete);
+      const res = db.exec("SELECT * FROM user");
+      console.log('resDelete',res)
+      if(res.length!=0){
+          let userArray=[]
+        for(var value in res){
+                   for(var i=0;i<res[value].values.length;i++){
+                      let userObj={}
+              userObj['id']=res[value].values[i][0]
+              userObj['firstName']=res[value].values[i][1]
+              userObj['lastName']=res[value].values[i][2]
+              userArray.push(userObj)
+          }
+          
+        }
+        arrayOfUser=userArray
+        User.list=userArray
+      }
     },
 
     save: function(data,id) {
-      console.log('data',data,id)
-        return m.request({
-            method: "PUT",
-            url: "https://rem-rest-api.herokuapp.com/api/users/" + User.current.id,
-            body: User.current,
-            withCredentials: true,
-        })
-        .then(function(result){
-            
-            let index=User.list.findIndex(x => x.id == id)
-            let sqlQueryUpdate=`UPDATE user SET firstName='${data.firstName}', lastName='${data.lastName}'  WHERE id='${id}'`
-           db.exec(sqlQueryUpdate)
-           const res=db.exec("SELECT * FROM user");
-           console.log('resU',res)
-            User.list[index]=data;
-             var content=document.getElementsByClassName('content');
-            // console.log('id',content[index].getElementsByClassName('input1')[0].value)
-            if(content[index].style.display==="block"){
-              content[index].style.display="none";
-            }
-
-        })
+      let index=User.list.findIndex(x => x.id == id)
+      let sqlQueryUpdate=`UPDATE user SET firstName='${data.firstName}', lastName='${data.lastName}'  WHERE id='${id}'`
+     db.exec(sqlQueryUpdate)
+     const res=db.exec("SELECT * FROM user");
+     console.log('resU',res)
+      User.list[index]=data;
+       var content=document.getElementsByClassName('content');
+      // console.log('id',content[index].getElementsByClassName('input1')[0].value)
+      if(content[index].style.display==="block"){
+        content[index].style.display="none";
+      }
     }
 }
 

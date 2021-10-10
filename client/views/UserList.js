@@ -21,7 +21,7 @@ module.exports = {
                 ),
                 m('h3',{style:'margin-left:10px;margin-top:0px'},
                 m('button', {onclick: function(){
-                  User.delete(index)
+                  User.delete(user.id)
                 }, style: 'font-size: 15pt;height:119%;background-color:red;color:white;cursor:pointer'}, 'Delete'),
               ), 
             ),],
